@@ -1,18 +1,21 @@
 // main.js
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-// ---- assets 3D / audio
-import model1Url  from './assets/model1.glb?url';
-import ambientUrl from './assets/audio.mp3?url';
-import whooshUrl  from './assets/meteoritos.mp3?url';
+// Three y helpers desde CDN (ES modules)
+import * as THREE from 'https://unpkg.com/three@0.161.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.161.0/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
+
+// ---- assets 3D / audio (rutas directas, sin ?url)
+const model1Url  = './assets/model1.glb';
+const ambientUrl = './assets/audio.mp3';      // o .wav, poné la extensión real
+const whooshUrl  = './assets/meteoritos.mp3'; // idem
 
 // ---- covers de la sección "Galería"
-import cover1 from './assets/galeria/frag1_galeria.png?url';
-import cover2 from './assets/galeria/frag2_galeria.png?url';
-import cover3 from './assets/galeria/frag3_galeria.png?url';
-import cover4 from './assets/galeria/frag4_galeria.png?url';
+const cover1 = './assets/galeria/frag1_galeria.png';
+const cover2 = './assets/galeria/frag2_galeria.png';
+const cover3 = './assets/galeria/frag3_galeria.png';
+const cover4 = './assets/galeria/frag4_galeria.png';
+
 
 /* ===================== FRAGMENTOS ===================== */
 const FRAGMENTS = [
