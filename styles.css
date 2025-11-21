@@ -1,0 +1,608 @@
+:root{
+  --bg:#0a0a0a;
+  --fg:#fff;
+  --muted:#bfbfbf;
+  --glass:rgba(0,0,0,.35);
+  --card:#111;
+  --card-b:#222;
+  --line:#222;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  height:100%;
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+header{
+  position:fixed;
+  inset:0 0 auto 0;
+  height:64px;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  background:var(--glass);
+  backdrop-filter:saturate(1.2) blur(6px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+header nav a{
+  color:var(--fg);
+  text-decoration:none;
+  margin:0 12px;
+  opacity:.9;
+}
+
+header nav a.active{
+  opacity:1;
+  border-bottom:2px solid var(--fg);
+  padding-bottom:4px;
+}
+
+main{
+  padding-top:64px;
+}
+
+/* ================= HOME (canvas 3D) ================= */
+
+#home{
+  height:calc(100vh - 64px);
+}
+
+#three{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+/* ================= GALERÍA (mapa) ================= */
+/* ================= GALERÍA (mapa) ================= */
+
+#gallery{
+  display:none; /* se muestra/oculta desde JS */
+  height:calc(100vh - 64px);
+  padding:32px 40px 32px;
+  position:relative;
+}
+
+.g-layout{
+  position:relative;
+  width:100%;
+  height:100%;
+  max-width:1400px;
+  margin:0 auto;
+}
+
+/* mapa de calles + rayos */
+.g-map{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  transition:transform .4s ease-out; /* para el parallax suave */
+}
+
+
+/* calles gruesas */
+.street{
+  position:absolute;
+  left:40%;
+  top:60%;
+  transform-origin:center;
+  height:5px;              /* MÁS GRUESAS */
+  background:#f5f5f5;
+}
+
+.street span{
+  position:absolute;
+  color:#f5f5f5;
+  font-size:1rem;
+  letter-spacing:.04em;
+  text-transform:capitalize;
+}
+
+/* Buenos Aires – línea larga diagonal, texto siguiendo la inclinación */
+.street-ba{
+  width:60%;
+  transform:translate(-50%, -50%) rotate(-12deg);
+}
+.street-ba span{
+  left:28%;               /* aprox. el primer tercio de la calle */
+  top:-26px;              /* por encima de la línea */
+  /* no rotamos el texto al revés → sigue la inclinación de la calle */
+}
+
+/* maciel – casi vertical, texto en sentido de la calle */
+.street-maciel{
+  width:40%;
+  transform:translate(-50%, -50%) rotate(70deg);
+}
+.street-maciel span{
+  left:60%;
+  top:50%;
+  transform:translateY(50%);  /* centrado sobre la calle */
+  /* hereda la rotación de la calle → queda vertical */
+}
+
+/* rayos finos hacia los fragmentos */
+.ray{
+  position:absolute;
+  height:2px;
+  background:#f5f5f5;
+  opacity:0.35;
+  transform-origin:left center;
+  transition:opacity .25s, height .25s;
+}
+
+/* cuando está activo (hover de su tarjeta) */
+.ray--active{
+  opacity:0.95;
+  height:3px;
+}
+
+
+/* coordenadas pensadas para parecerse al boceto */
+
+/* hacia Fragmento 3 (arriba izq) */
+.ray-1{
+  width:19%;
+  left:23%;
+  top:30%;
+  transform:rotate(20deg);
+}
+
+/* hacia Fragmento 4 (arriba der) */
+.ray-2{
+  width:19%;
+  left:39%;
+  top:20%;
+  transform:rotate(-18deg);
+}
+
+/* hacia Fragmento 1 (medio der) */
+.ray-3{
+  width:28%;
+  left:47%;
+  top:50%;
+  transform:rotate(-13deg);
+}
+
+/* hacia Fragmento 2 (abajo der) */
+.ray-4{
+  width:26%;
+  left:50%;
+  top:65%;
+  transform:rotate(20deg);
+}
+
+/* contenedor de tarjetas */
+.g-grid{
+  position:absolute;
+  inset:0;
+}
+
+/* tarjetas (ya las achicamos para que se vea más el mapa) */
+.g-card{
+  position:absolute;
+  border:0;
+  padding:0;
+  cursor:pointer;
+  border-radius:18px;
+  overflow:hidden;
+  background:#000000;
+  width:26vw;
+  max-width:320px;
+  aspect-ratio:16 / 9;
+}
+
+.g-cover{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scale(1.03);
+}
+
+/* blur + oscurecido */
+.g-blur{
+  position:absolute;
+  inset:0;
+  backdrop-filter: blur(10px) saturate(1.05);
+  background: linear-gradient(to bottom, rgba(101, 101, 101, 0.35), rgba(0,0,0,.7));
+  transition:.25s;
+}
+
+/* título centrado */
+.g-title{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  font-weight:700;
+  letter-spacing:.2px;
+  text-align:center;
+  font-size:1.05rem;
+  opacity:1;                 /* visible por defecto (cuando está blur) */
+  transition:opacity .25s;   /* anima el fade */
+}
+
+/* cuando paso el mouse, se ve la foto y desaparece el texto */
+.g-card:hover .g-blur{
+  opacity:0;
+}
+
+.g-card:hover .g-title{
+  opacity:0;
+}
+
+
+/* posiciones específicas de cada fragmento, siguiendo el boceto */
+
+/* Frag 3 – arriba izquierda */
+.g-pos-frag-03{
+  top:10%;
+  left:4%;
+}
+
+/* Frag 4 – arriba derecha */
+.g-pos-frag-04{
+  top:0%;
+  right:20%;
+}
+
+/* Frag 1 – centro derecha */
+.g-pos-frag-01{
+  top:30%;
+  right:4%;
+}
+
+/* Frag 2 – abajo derecha */
+.g-pos-frag-02{
+  top:68%;
+  right:10%;
+}
+
+
+/* ================= PROYECTO ================= */
+
+#project{
+  display:none;              /* controlado desde JS */
+  min-height:calc(100vh - 64px);
+  padding:80px 10vw 96px;
+  line-height:1.6;
+  color:#e7e7e7;
+  position:relative;
+  overflow:hidden;
+}
+
+/* título */
+#project h2{
+  margin:0 0 56px 0;
+  text-align:center;
+  font-size:2.1rem;
+  position:relative;
+  z-index:2;
+}
+
+/* grid escalonado de párrafos */
+.project-columns{
+  display:grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap:7vw;
+  row-gap:40px;
+  position:relative;
+  z-index:2;
+}
+
+.project-text{
+  max-width:36rem;
+  font-size:1rem;
+}
+
+/* escalonado tipo “escalera” */
+.project-text.p1{
+  grid-column:1;
+  margin-top:0;
+}
+
+.project-text.p2{
+  grid-column:2;
+  margin-top:200px;
+}
+
+.project-text.p3{
+  grid-column:1;
+  margin-top:10px;
+}
+
+.project-text.p4{
+  grid-column:2;
+  margin-top:300px;
+}
+
+.project-text-soft{
+  color:#cfcfcf;
+}
+
+/* canvas de la red de líneas + puntos */
+#project-network{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.55);
+  z-index:9999;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--card-b);
+  color:var(--fg);
+  width:min(900px,95%);
+  max-height:80vh;
+  overflow:auto;
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 10px 40px rgba(0,0,0,.6);
+}
+
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.meta{
+  color:#bcbcbc;
+  font-size:.95rem;
+  margin-top:2px;
+}
+
+.close{
+  background:#222;
+  color:#eee;
+  border:1px solid #333;
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* visor 3D genérico (por si lo usás) */
+.m-view3d{
+  width:100%;
+  height:220px;
+  margin:10px 0 12px;
+  border-radius:10px;
+  background:#0b0b0b;
+  border:1px solid #1c1c1c;
+}
+
+/* Galería interna del modal */
+
+.gallery{
+  margin-top:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+.g-view{
+  position:relative;
+  width:100%;
+  max-width:620px;
+  aspect-ratio:4/3;
+  background:#000;
+  border-radius:10px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.g-view img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+.g-year{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:2.1rem;
+  letter-spacing:.04em;
+  color:#fff;
+  text-shadow:0 2px 16px rgba(0,0,0,.55);
+  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,.25);
+  opacity:1;
+  transition:opacity .2s ease;
+}
+
+.g-view:hover .g-year{
+  opacity:0;
+}
+
+.gallery button{
+  background:#222;
+  color:#ccc;
+  border:none;
+  border-radius:8px;
+  padding:6px 12px;
+  cursor:pointer;
+}
+
+.gallery button:hover{
+  background:#333;
+  color:#fff;
+}
+
+/* ================= BOTÓN AUDIO ================= */
+
+.audio-btn{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index:35;
+  font-size: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border:1px solid #555;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  backdrop-filter: blur(5px);
+  transition: background .25s;
+}
+
+.audio-btn:hover{
+  background: rgba(255,255,255,0.1);
+}
+
+/* ================= LOADING PAGE ================= */
+
+#loader{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+}
+
+#loader.fade-out{
+  opacity: 0;
+  pointer-events: none;
+}
+
+#loader-video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#loader-button{
+  position: relative;
+  z-index: 1;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.8);
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: not-allowed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+#loader-button.ready{
+  cursor: pointer;
+  background: rgba(0,0,0,0.7);
+}
+
+#loader-percentage{
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+#loader-label{
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:900px){
+
+  /* galería: se simplifica a columna */
+  #gallery{
+    padding:20px 16px 24px;
+    min-height:auto;
+  }
+
+  .g-layout{
+    height:auto;
+  }
+
+  .g-map{
+    display:none;   /* ocultamos líneas/calles en mobile */
+  }
+
+  .g-grid{
+    position:static;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .g-card{
+    position:static;
+    width:100%;
+    max-width:none;
+  }
+
+  /* proyecto: una sola columna sin escalonado */
+  #project{
+    padding:72px 20px 80px;
+  }
+
+  .project-columns{
+    grid-template-columns:1fr;
+    row-gap:40px;
+  }
+
+  .project-text.p1,
+  .project-text.p2,
+  .project-text.p3,
+  .project-text.p4{
+    grid-column:1;
+    margin-top:0;
+  }
+}

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Psicogeografía de las Ausencias</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+
+  <body>
+
+    <!-- ========== LOADING PAGE ========== -->
+    <div id="loader">
+      <video id="loader-video" autoplay muted loop playsinline>
+        <source src="./assets/video/video-loader.mp4" type="video/mp4" />
+      </video>
+
+      <button id="loader-button" disabled>
+        <span id="loader-percentage">0%</span>
+        <span id="loader-label" style="display:none;">Empezar</span>
+      </button>
+    </div>
+
+    <!-- ========== HEADER ========== -->
+    <header>
+      <div><strong>Psicogeografía de las Ausencias</strong></div>
+      <nav>
+        <a href="#" id="nav-home" class="active">Home</a>
+        <a href="#" id="nav-gallery">Galería</a>
+        <a href="#" id="nav-project">Proyecto</a>
+      </nav>
+    </header>
+
+    <!-- ========== MAIN ========== -->
+    <main>
+
+      <!-- ===== HOME ===== -->
+      <section id="home">
+        <canvas id="three"></canvas>
+      </section>
+
+      <!-- ===== GALERÍA ===== -->
+      <section id="gallery"></section>
+
+      <!-- ===== PROYECTO ===== -->
+<section id="project">
+  <h2>Sobre el proyecto</h2>
+
+  <div class="project-columns">
+    <p class="project-text p1">
+      Topografía de las ausencias es una exploración digital del patrimonio arquitectónico de Ciudad Vieja. 
+      A través del escaneo 3D de fragmentos en deterioro, la obra reconstruye una memoria 
+      visual y sonora de lo que el tiempo borró. Escanear la falta es volver visible el vacío; es hacer del deterioro un signo.
+    </p>
+
+    <p class="project-text p2">
+      Los fragmentos, tratados como meteoritos, trasladan la ruina arquitectónica a un espacio cósmico y abstracto, donde 
+      el espectador se enfrenta a restos suspendidos, fuera de contexto, como si el tiempo los hubiera expulsado de su órbita original. 
+      El deterioro se vuelve una forma de impacto: el golpe del clima, de la indiferencia o del progreso. Cada pieza es un testigo 
+      anónimo de ese choque, y su flotación sugiere que ya no hay suelo estable para la memoria.
+    </p>
+
+    <p class="project-text p3">
+      Las casas seleccionadas pertenecen al Grado 2 de Protección Patrimonial, una categoría que exige conservar su vínculo con el entorno y mantener sus elementos significativos. 
+      Sin embargo, muchas de ellas han perdido partes visibles de su estructura, y sus autores permanecen desconocidos. 
+      Este anonimato refuerza la idea de un patrimonio blando, intangible, que se sostiene más en la evocación que en la materia.
+      La web funciona como un campo sensible: las ausencias emergen solo si alguien las busca. Cada fragmento es una puerta hacia 
+      algo que no puede reconstruirse del todo. 
+    </p>
+
+    <p class="project-text project-text-soft p4">
+      El sonido cumple un rol esencial: ancla lo digital en lo real, dejando oír ecos del lugar. 
+      Cuando el espectador hace clic, no solo accede a información, sino también al rumor de la ciudad, 
+      como si el sonido fuera el hilo que une el vacío con la memoria.
+    </p>
+  </div>
+
+  <!-- Canvas de la malla/nube de puntos -->
+  <canvas id="project-network"></canvas>
+</section>
+
+
+    </main>
+
+    <!-- ========== MODAL ========== -->
+    <div id="modal" class="modal" role="dialog" aria-hidden="true">
+      <div class="card">
+
+        <header>
+          <div>
+            <h3 id="m-title">Título</h3>
+            <div id="m-meta" class="meta"></div>
+          </div>
+          <button id="m-close" class="close">Cerrar</button>
+        </header>
+
+        <!-- Visor 3D -->
+        <div id="m-view">
+          <canvas id="m-canvas"></canvas>
+        </div>
+
+        <div style="display:grid; gap:8px; margin-top:10px;">
+          <div><strong>Calle:</strong> <span id="m-address">—</span></div>
+
+          <div id="m-dates-row" style="display:none;">
+            <strong>Rango / Año:</strong> <span id="m-dates">—</span>
+          </div>
+
+          <div id="m-obs-row" style="display:none;">
+            <strong>Observaciones:</strong> <span id="m-obs">—</span>
+          </div>
+        </div>
+
+        <hr style="border-color:#222; margin:12px 0;" />
+
+        <p id="m-desc" style="margin-top:6px;"></p>
+
+        <audio id="m-audio" controls style="margin-top:10px; width:100%;"></audio>
+
+        <div id="m-gallery" class="gallery">
+          <button class="g-prev">‹</button>
+          <div class="g-view">
+            <img id="g-img" src="" alt="foto del fragmento">
+            <div id="g-year" class="g-year"></div>
+          </div>
+          <button class="g-next">›</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== AUDIO BUTTON ========== -->
+    <button id="audio-toggle" class="audio-btn" aria-label="Audio ambiente activado">🔊</button>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script type="module" src="/loader.js"></script>
+    <script type="module" src="/main.js"></script>
+    <script type="module" src="/project.js"></script>
+
+  </body>
+</html>
