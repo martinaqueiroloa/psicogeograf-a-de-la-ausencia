@@ -1,21 +1,17 @@
-// main.js
-
 // ====== IMPORTS DESDE CDN ======
-import * as THREE from 'https://unpkg.com/three@0.161.0/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.161.0/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from 'https://esm.sh/three@0.161.0';
+import { OrbitControls } from 'https://esm.sh/three@0.161.0/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://esm.sh/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
 
-// ====== RUTAS A TUS ASSETS (SIN "?url") ======
+// ====== RUTAS A TUS ASSETS ======
 const model1Url  = './assets/model1.glb';
-const ambientUrl = './assets/audio.mp3';      // poné la extensión real
-const whooshUrl  = './assets/meteoritos.mp3'; // poné la extensión real
+const ambientUrl = './assets/audio.mp3';       // ajustá la extensión real
+const whooshUrl  = './assets/meteoritos.mp3';  // ajustá la extensión real
 
-// Covers galería
 const cover1 = './assets/galeria/frag1_galeria.png';
 const cover2 = './assets/galeria/frag2_galeria.png';
 const cover3 = './assets/galeria/frag3_galeria.png';
 const cover4 = './assets/galeria/frag4_galeria.png';
-
 /* ===================== FRAGMENTOS ===================== */
 const FRAGMENTS = [
   {

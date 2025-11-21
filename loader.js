@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // A partir de acá permitimos sonidos del sitio
     window.__LOADER_ACTIVE__ = false;
 
-    // ✅ Cortar el video del loader
+    // Cortar el video del loader
     if (video) {
       try {
         video.pause();
