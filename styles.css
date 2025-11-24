@@ -606,3 +606,119 @@ main{
     margin-top:0;
   }
 }
+
+/* ===================================================== */
+/* ===============  VERSIÓN MOBILE  ==================== */
+/* ===================================================== */
+
+@media (max-width: 768px){
+
+  /* ---------- LOADER / VIDEO VERTICAL ---------- */
+  #loader{
+    align-items: center;
+    justify-content: center;
+  }
+
+  #loader-video{
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    object-fit: contain;   /* que se vea entero en vertical */
+  }
+
+  #loader-button,
+  #loader-progress{
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ---------- HEADER / MENÚ SUPERIOR ---------- */
+
+  header{
+    height: auto;               /* que pueda crecer en alto */
+    padding: 8px 12px;
+    gap: 4px;
+  }
+
+  header > div strong{
+    font-size: 0.85rem;         /* título un poco más chico */
+  }
+
+  header nav{
+    display: flex;
+    flex-wrap: wrap;            /* que se pueda partir en dos líneas */
+    gap: 6px;
+    justify-content: flex-start;
+  }
+
+  header nav a{
+    margin: 0;
+    font-size: 0.85rem;
+    padding: 4px 8px;
+  }
+
+  /* ---------- HOME (meteoritos) ---------- */
+  /* No tocamos el canvas, solo dejamos que la sección
+     pueda crecer de alto si hace falta en cel. */
+
+  #home{
+    height: auto;
+    min-height: calc(100vh - 64px);
+  }
+
+  /* ---------- GALERÍA: VERSIÓN LISTA VERTICAL ---------- */
+
+  #gallery{
+    height: auto;
+    min-height: calc(100vh - 64px);
+    padding: 16px 16px 24px;
+    overflow-y: auto;
+  }
+
+  /* Ocultamos el mapa con calles y rayos */
+  .g-map{
+    display: none;
+  }
+
+  /* El grid deja de ser absoluto a pantalla completa
+     y pasa a comportarse como un contenedor normal en columna */
+  .g-grid{
+    position: static;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Tarjetas: dejan de ser absolutas (sobre el mapa) y pasan a
+     ser bloques uno abajo del otro */
+  .g-card{
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    height: 220px;            /* podés subir/bajar este valor si querés */
+    margin: 0;
+  }
+
+  /* Por las dudas anulamos las posiciones específicas tipo .g-pos-frag-01 */
+  [class*="g-pos-"]{
+    top: auto !important;
+    left: auto !important;
+  }
+
+  /* Si querés que el título se vea siempre (sin desaparecer en hover),
+     en mobile generalmente es mejor así: */
+  .g-card .g-title{
+    opacity: 1;
+  }
+
+  .g-card:hover .g-title{
+    opacity: 1;
+  }
+}
