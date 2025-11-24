@@ -362,7 +362,27 @@ let ambient       = null;
 let ambientReady  = false;
 const DEFAULT_AMBIENT = 0.18;
 
-function setAmbientVolume(v){ if (ambient) ambient.setVolume(v); }
+function setAmbientVolume(v){ 
+  if (ambient) ambient.setVolume(v); 
+}
+
+// 🔹 NUEVO: función para hacer un fade suave en el ambiente
+function fadeAmbientTo(target, ms = 350) {
+  if (!ambient || !ambient.gain) {
+    // si por alguna razón no tenemos gain, caemos al set directo
+    setAmbientVolume(target);
+    return;
+  }
+  const ctx = listener.context;
+  const g = ambient.gain.gain;
+  const now = ctx.currentTime;
+  const current = g.value ?? target;
+
+  g.cancelScheduledValues(now);
+  g.setValueAtTime(current, now);
+  g.linearRampToValueAtTime(target, now + ms / 1000);
+}
+
 function initAmbient(){
   if (ambientReady) return;
   ambient = new THREE.Audio(listener);
@@ -577,16 +597,18 @@ renderer.domElement.addEventListener('pointerdown', e=>{
 });
 
 /* =============== ORQUESTA DE AUDIO GLOBAL =============== */
-function refreshAudioState() {
+function refreshAudioState(){
   if (!ambientReady) return;
 
   if (globalMuted || modalOpen) {
-    setAmbientVolume(0);
+    // fade a silencio
+    fadeAmbientTo(0, 300);
   } else {
-    // siempre este volumen, siempre igual
-    setAmbientVolume(DEFAULT_AMBIENT);
+    // fade al volumen base
+    fadeAmbientTo(DEFAULT_AMBIENT, 300);
   }
 }
+
 
 
 /* ====================== LOOP ======================= */
