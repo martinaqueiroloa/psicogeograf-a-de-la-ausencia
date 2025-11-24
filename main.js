@@ -416,7 +416,7 @@ if (audioBtn){
 const MAX_SIMULT = 6;
 const whooshPool = [];
 let whooshBuffer = null;
-const WHOOSH_MASTER_GAIN = 0.09; // bajar volumen general de whooshes
+const WHOOSH_MASTER_GAIN = 0.25; // bajar volumen general de whooshes
 
 audioLoader.load(
   whooshUrl,
