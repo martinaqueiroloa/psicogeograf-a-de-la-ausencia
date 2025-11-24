@@ -381,11 +381,7 @@ function initAmbient(){
   );
 }
 
-// ducking desactivado
-let duckTimer = null;
-function duckAmbient(level = 0.06, ms = 900){
-  return;
-}
+
 
 // 🔹 Maneja el primer click que activa el ambiente.
 // Importante: mientras `window.__LOADER_ACTIVE__` sea true (loading page),
@@ -420,7 +416,7 @@ if (audioBtn){
 const MAX_SIMULT = 6;
 const whooshPool = [];
 let whooshBuffer = null;
-const WHOOSH_MASTER_GAIN = 0.4; // bajar volumen general de whooshes
+const WHOOSH_MASTER_GAIN = 0.1; // bajar volumen general de whooshes
 
 audioLoader.load(
   whooshUrl,
@@ -581,17 +577,17 @@ renderer.domElement.addEventListener('pointerdown', e=>{
 });
 
 /* =============== ORQUESTA DE AUDIO GLOBAL =============== */
-function refreshAudioState(){
+function refreshAudioState() {
   if (!ambientReady) return;
 
-  // Ambiente siempre encendido en todas las secciones,
-  // salvo cuando está muteado o hay modal abierto.
-  if (globalMuted || modalOpen) { 
-    setAmbientVolume(0); 
+  if (globalMuted || modalOpen) {
+    setAmbientVolume(0);
   } else {
+    // siempre este volumen, siempre igual
     setAmbientVolume(DEFAULT_AMBIENT);
   }
 }
+
 
 /* ====================== LOOP ======================= */
 function animate(){
@@ -611,7 +607,7 @@ function animate(){
       if (dist < 40 && elapsed > 1000) {
         const ch = getFreeWhoosh();
         if (ch) {
-          const gain = THREE.MathUtils.clamp(1 - dist/40, 0.4, 1.1);
+          const gain = THREE.MathUtils.clamp((1 - dist/40) * 0.4, 0.05, 0.3);
           const rate = 0.95 + Math.random()*0.1;
           playWhooshOn(h, ch, gain, rate);
           audioData.lastPlayed = now;
