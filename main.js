@@ -416,7 +416,7 @@ if (audioBtn){
 const MAX_SIMULT = 6;
 const whooshPool = [];
 let whooshBuffer = null;
-const WHOOSH_MASTER_GAIN = 0.05; // bajar volumen general de whooshes
+const WHOOSH_MASTER_GAIN = 0.09; // bajar volumen general de whooshes
 
 audioLoader.load(
   whooshUrl,
@@ -607,7 +607,7 @@ function animate(){
       if (dist < 40 && elapsed > 1000) {
         const ch = getFreeWhoosh();
         if (ch) {
-          const gain = THREE.MathUtils.clamp((1 - dist/40) * 0.1, 0.05, 0.3);
+          const gain = THREE.MathUtils.clamp((1 - dist/40) * 0.4, 0.05, 0.3);
           const rate = 0.95 + Math.random()*0.1;
           playWhooshOn(h, ch, gain, rate);
           audioData.lastPlayed = now;
