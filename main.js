@@ -1,3 +1,5 @@
+// main.js
+
 // ====== IMPORTS DESDE CDN ======
 import * as THREE from 'https://esm.sh/three@0.161.0';
 import { OrbitControls } from 'https://esm.sh/three@0.161.0/examples/jsm/controls/OrbitControls.js';
@@ -8,13 +10,15 @@ const model1Url  = './assets/modelos/frag1.glb';
 const model2Url  = './assets/modelos/frag2.glb';
 const model3Url  = './assets/modelos/frag3.glb';
 const model4Url  = './assets/modelos/frag4.glb';
-const ambientUrl = './assets/audio/ambiente.mp3';       // ajustá la extensión real
-const whooshUrl  = './assets/audio/meteoritos.mp3';  // ajustá la extensión real
+
+const ambientUrl = './assets/audio/ambiente.mp3';
+const whooshUrl  = './assets/audio/meteoritos.mp3';
 
 const cover1 = './assets/galeria/frag1_galeria.png';
 const cover2 = './assets/galeria/frag2_galeria.png';
 const cover3 = './assets/galeria/frag3_galeria.png';
 const cover4 = './assets/galeria/frag4_galeria.png';
+
 /* ===================== FRAGMENTOS ===================== */
 const FRAGMENTS = [
   {
@@ -27,9 +31,9 @@ const FRAGMENTS = [
     obs: '',
     desc: 'Edificio construido a fines del siglo XIX, desarrollado en dos niveles, que albergaba una vivienda en cada uno de ellos. Actualmente se encuentra desocupado, habiéndose tapiado las aberturas de planta baja. La fachada conserva la vivienda tipo standard de dos niveles, con sobria ornamentación –aunque con pérdidas–, sobre todo en el piso superior: balcón corrido con herrería trabajada, pilastras y frontones curvos y triangulares enmarcando vanos. Exteriormente en regular estado de conservación; requiere mantenimiento.',
     gallery: [
-      { src: './assets/frag1_1983.jpg', year: 1983 },
-      { src: './assets/frag1_2000.jpg', year: 2000 },
-      { src: './assets/frag1_2010.jpg', year: 2010 }
+      { src: './assets/fotos/frag1_1983.jpg', year: 1983 },
+      { src: './assets/fotos/frag1_2000.jpg', year: 2000 },
+      { src: './assets/fotos/frag1_2010.jpg', year: 2010 }
     ]
   },
   {
@@ -42,9 +46,9 @@ const FRAGMENTS = [
     obs: 'Padrón con dos construcciones. Datos del edificio de dos niveles próximo a calle Maciel. Puertas tapiadas.',
     desc: 'Edificio de fines del siglo XIX, dos niveles, una vivienda por nivel. Actualmente desocupado con aberturas de planta baja tapiadas. Mantiene tipología standard con ornamentación sobria (con pérdidas), concentrada en el nivel superior: balcón corrido, herrería trabajada, pilastras y frontones curvos/triangulares. Exteriormente en regular estado; requiere mantenimiento.',
     gallery: [
-      { src: './assets/frag2_1983.jpg', year: 1983 },
-      { src: './assets/frag2_2000.jpg', year: 2000 },
-      { src: './assets/frag2_2010.jpg', year: 2010 }
+      { src: './assets/fotos/frag2_1983.jpg', year: 1983 },
+      { src: './assets/fotos/frag2_2000.jpg', year: 2000 },
+      { src: './assets/fotos/frag2_2010.jpg', year: 2010 }
     ]
   },
   {
@@ -57,9 +61,9 @@ const FRAGMENTS = [
     obs: 'Se presume ocupación informal. Pese al derrumbe de la cubierta en el sector frontal, el sector posterior estaría habitado. “1902” figura en fachada. Tapiado de vanos posterior al 2000.',
     desc: 'Vivienda tipo standard, principios del siglo XX, un nivel. Vanos tapiados y derrumbe de cubierta en el sector frontal; según vecinos, funciona como vivienda (presumiblemente ocupación informal). La fachada perdió balaustres de balcones y pretil, pero conserva ritmo y proporción de vanos con arcos escarzanos y decoración en torno a los mismos (destaca el sector central). Exteriormente en regular estado.',
     gallery: [
-      { src: './assets/frag3_1983.jpg', year: 1983 },
-      { src: './assets/frag3_2000.jpg', year: 2000 },
-      { src: './assets/frag3_2010.jpg', year: 2010 }
+      { src: './assets/fotos/frag3_1983.jpg', year: 1983 },
+      { src: './assets/fotos/frag3_2000.jpg', year: 2000 },
+      { src: './assets/fotos/frag3_2010.jpg', year: 2010 }
     ]
   },
   {
@@ -72,9 +76,9 @@ const FRAGMENTS = [
     obs: 'Según vecinos, vivienda unifamiliar. Tapiado de vanos posterior a 2000. Fue pensión (posibles alteraciones interiores).',
     desc: 'Vivienda tipo standard de principios del siglo XX, un nivel con subsuelo. Usada como pensión; actualmente funcionaría como vivienda. Destaca la decoración de fachada en torno a vanos (arcos de medio punto), bajo el balcón del pretil y la presencia de balcones de mármol. Sin grandes modificaciones exteriores, pero con ventanas tapiadas. Exteriormente en regular estado.',
     gallery: [
-      { src: './assets/frag4_1983.jpg', year: 1983 },
-      { src: './assets/frag4_2000.jpg', year: 2000 },
-      { src: './assets/frag4_2010.jpg', year: 2010 }
+      { src: './assets/fotos/frag4_1983.jpg', year: 1983 },
+      { src: './assets/fotos/frag4_2000.jpg', year: 2000 },
+      { src: './assets/fotos/frag4_2010.jpg', year: 2010 }
     ]
   }
 ];
@@ -118,11 +122,9 @@ function buildGallery(){
   if (!$gallery) return;
   $gallery.innerHTML = '';
 
-  // contenedor general
   const layout = document.createElement('div');
   layout.className = 'g-layout';
 
-  // mapa de calles + rayos
   const map = document.createElement('div');
   map.className = 'g-map';
   map.innerHTML = `
@@ -135,7 +137,6 @@ function buildGallery(){
     <div class="ray ray-4"></div>
   `;
 
-  // contenedor de tarjetas
   const grid = document.createElement('div');
   grid.className = 'g-grid';
 
@@ -155,13 +156,13 @@ function buildGallery(){
   layout.appendChild(grid);
   $gallery.appendChild(layout);
 
-    // --- parallax suave del mapa (solo mueve las líneas, no las tarjetas) ---
+  // parallax suave del mapa
   $gallery.addEventListener('pointermove', e => {
     const rect = $gallery.getBoundingClientRect();
-    const nx = (e.clientX - rect.left) / rect.width  - 0.5; // -0.5 a 0.5
+    const nx = (e.clientX - rect.left) / rect.width  - 0.5;
     const ny = (e.clientY - rect.top)  / rect.height - 0.5;
 
-    const dist = 18; // cuanto se mueve máx en px (muy suave)
+    const dist = 18;
     const tx = -nx * dist;
     const ty = -ny * dist;
 
@@ -171,7 +172,6 @@ function buildGallery(){
   $gallery.addEventListener('pointerleave', () => {
     map.style.transform = 'translate3d(0, 0, 0)';
   });
-
 }
 buildGallery();
 
@@ -199,7 +199,7 @@ function initModalViewer(){
   const canvas = document.getElementById('m-canvas');
   mRenderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
   mRenderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
-  mScene = new THREE.Scene(); // fondo transparente
+  mScene = new THREE.Scene();
   mCamera = new THREE.PerspectiveCamera(35, 1, 0.01, 100);
   mCamera.position.set(0.8, 0.6, 1.8);
   mScene.add(new THREE.HemisphereLight(0xffffff, 0x222233, 1));
@@ -282,10 +282,8 @@ function openModal(f){
     $mObsRow.style.display = '';
   } else { $mObs.textContent = ''; $mObsRow.style.display = 'none'; }
 
-  // visor 3D
   showFragmentInViewer(f);
 
-  // galería interna
   let currentImg = 0;
   function showImage(i){
     if (!f.gallery || f.gallery.length===0) return;
@@ -309,7 +307,6 @@ function openModal(f){
     showImage(currentImg);
   };
 
-  // audio & estado
   $mAudio.src = f.audio || '';
   modalOpen = true;
   stopAllWhooshes();
@@ -383,28 +380,26 @@ function initAmbient(){
     err => console.error('❌ error cargando ambient:', ambientUrl, err)
   );
 }
+
+// ducking desactivado
 let duckTimer = null;
 function duckAmbient(level = 0.06, ms = 900){
-  if (!ambientReady) return;
-  if (globalMuted || modalOpen || currentView!=='home') return;
-  setAmbientVolume(level);
-  if (duckTimer) clearTimeout(duckTimer);
-  duckTimer = setTimeout(()=> refreshAudioState(), ms);
+  return;
 }
 
-// 🔹 Maneja el primer click que activa el ambiente (después del loader)
+// 🔹 Maneja el primer click que activa el ambiente.
+// Importante: mientras `window.__LOADER_ACTIVE__` sea true (loading page),
+// NO se inicializa el ambiente. Se empieza recién cuando la app está lista
+// y la persona hace click ya dentro de la experiencia principal.
 function handleFirstPointerDown() {
-  // si la landing sigue activa, todavía no activamos el ambiente
   if (window.__LOADER_ACTIVE__) return;
 
   if (!ambientReady) {
     initAmbient();
   }
 
-  // una vez que arrancamos el ambiente, ya no necesitamos este listener
   window.removeEventListener('pointerdown', handleFirstPointerDown);
 }
-
 window.addEventListener('pointerdown', handleFirstPointerDown);
 
 const audioBtn = document.getElementById('audio-toggle');
@@ -425,6 +420,7 @@ if (audioBtn){
 const MAX_SIMULT = 6;
 const whooshPool = [];
 let whooshBuffer = null;
+const WHOOSH_MASTER_GAIN = 0.4; // bajar volumen general de whooshes
 
 audioLoader.load(
   whooshUrl,
@@ -440,14 +436,18 @@ for (let i=0; i<MAX_SIMULT; i++){
 }
 function getFreeWhoosh(){ for (const a of whooshPool){ if (!a.isPlaying) return a; } return null; }
 function stopAllWhooshes(){ whooshPool.forEach(a=>{ try{ a.stop(); }catch(_){ } if (a.parent) a.parent.remove(a); }); }
+
 function playWhooshOn(target, channel, volume, rate, refDist=7, maxDist=40){
   channel.setBuffer(whooshBuffer);
   channel.setRefDistance(refDist);
   channel.setMaxDistance(maxDist);
-  channel.setVolume(volume);
+  channel.setVolume(volume * WHOOSH_MASTER_GAIN); // volumen global más bajo
   channel.setPlaybackRate(rate);
   const filter = listener.context.createBiquadFilter();
-  filter.type = 'peaking'; filter.frequency.value = 3000; filter.Q.value = 1.0; filter.gain.value = 6;
+  filter.type = 'peaking'; 
+  filter.frequency.value = 3000; 
+  filter.Q.value = 1.0; 
+  filter.gain.value = 6;
   channel.setFilter(filter);
   target.add(channel);
   channel.play();
@@ -525,7 +525,10 @@ function makeInstance(fragment, layer){
   root.add(clone);
   root.userData.fragment = fragment;
   const pa = new THREE.PositionalAudio(listener);
-  pa.setRefDistance(6); pa.setMaxDistance(40); pa.setRolloffFactor(1.5); pa.setDistanceModel('inverse');
+  pa.setRefDistance(6); 
+  pa.setMaxDistance(40); 
+  pa.setRolloffFactor(1.5); 
+  pa.setDistanceModel('inverse');
   root.add(pa);
   root.userData.audio = { pa, lastPlayed: 0 };
   spawnAt(root, layer);
@@ -543,7 +546,10 @@ function makeInstance(fragment, layer){
     root.add(clone);
     root.userData.fragment = f;
     const pa = new THREE.PositionalAudio(listener);
-    pa.setRefDistance(6); pa.setMaxDistance(40); pa.setRolloffFactor(1.5); pa.setDistanceModel('inverse');
+    pa.setRefDistance(6); 
+    pa.setMaxDistance(40); 
+    pa.setRolloffFactor(1.5); 
+    pa.setDistanceModel('inverse');
     root.add(pa);
     root.userData.audio = { pa, lastPlayed: 0 };
     root.position.set(randIn(NEAR_CORRIDOR.x), randIn(NEAR_CORRIDOR.y), randIn(NEAR_CORRIDOR.z));
@@ -576,14 +582,14 @@ renderer.domElement.addEventListener('pointerdown', e=>{
 
 /* =============== ORQUESTA DE AUDIO GLOBAL =============== */
 function refreshAudioState(){
-  if (ambientReady){
-    if (globalMuted || modalOpen){ 
-      setAmbientVolume(0); 
-    } else if (currentView === 'home') {
-      setAmbientVolume(DEFAULT_AMBIENT);
-    } else {
-      setAmbientVolume(0);
-    }
+  if (!ambientReady) return;
+
+  // Ambiente siempre encendido en todas las secciones,
+  // salvo cuando está muteado o hay modal abierto.
+  if (globalMuted || modalOpen) { 
+    setAmbientVolume(0); 
+  } else {
+    setAmbientVolume(DEFAULT_AMBIENT);
   }
 }
 
@@ -598,7 +604,6 @@ function animate(){
     h.rotation.x += 0.0025;
     h.rotation.y += 0.003;
 
-    // whoosh por proximidad + cooldown
     const audioData = h.userData.audio;
     if (audioData && allowWhoosh()) {
       const dist = camera.position.distanceTo(h.position);
@@ -609,13 +614,11 @@ function animate(){
           const gain = THREE.MathUtils.clamp(1 - dist/40, 0.4, 1.1);
           const rate = 0.95 + Math.random()*0.1;
           playWhooshOn(h, ch, gain, rate);
-          duckAmbient(0.05, 800);
           audioData.lastPlayed = now;
         }
       }
     }
 
-    // respawn
     if (h.position.y < DESPAWN_Y){
       const layer = DEPTH_LAYERS[Math.floor(Math.random()*DEPTH_LAYERS.length)];
       const useNear = (i % 4 === 0) || (Math.random() < NEAR_PROB);
