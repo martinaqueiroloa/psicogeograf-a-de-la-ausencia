@@ -4,9 +4,12 @@ import { OrbitControls } from 'https://esm.sh/three@0.161.0/examples/jsm/control
 import { GLTFLoader } from 'https://esm.sh/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
 
 // ====== RUTAS A TUS ASSETS ======
-const model1Url  = './assets/model1.glb';
-const ambientUrl = './assets/audio.mp3';       // ajustá la extensión real
-const whooshUrl  = './assets/meteoritos.mp3';  // ajustá la extensión real
+const model1Url  = './assets/modelos/frag1.glb';
+const model2Url  = './assets/modelos/frag2.glb';
+const model3Url  = './assets/modelos/frag3.glb';
+const model4Url  = './assets/modelos/frag4.glb';
+const ambientUrl = './assets/audio/ambiente.mp3';       // ajustá la extensión real
+const whooshUrl  = './assets/audio/meteoritos.mp3';  // ajustá la extensión real
 
 const cover1 = './assets/galeria/frag1_galeria.png';
 const cover2 = './assets/galeria/frag2_galeria.png';
@@ -32,7 +35,7 @@ const FRAGMENTS = [
   {
     id: 'frag-02',
     title: 'Fragmento 2',
-    model: model1Url,
+    model: model2Url,
     cover: cover2,
     address: 'Buenos Aires esq. Maciel',
     dates: '1900–1920',
@@ -47,7 +50,7 @@ const FRAGMENTS = [
   {
     id: 'frag-03',
     title: 'Fragmento 3',
-    model: model1Url,
+    model: model3Url,
     cover: cover3,
     address: 'Maciel 1312 esq. Buenos Aires',
     dates: '1902',
@@ -62,7 +65,7 @@ const FRAGMENTS = [
   {
     id: 'frag-04',
     title: 'Fragmento 4',
-    model: model1Url,
+    model: model4Url,
     cover: cover4,
     address: 'Maciel 1330 esq. Buenos Aires',
     dates: '1902',
