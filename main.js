@@ -19,15 +19,6 @@ const cover2 = './assets/galeria/frag2_galeria.png';
 const cover3 = './assets/galeria/frag3_galeria.png';
 const cover4 = './assets/galeria/frag4_galeria.png';
 
-/////nueva pagina
-import { initStreetScene } from './streetScene.js';
-
-document.addEventListener('DOMContentLoaded', () => {
-  const streetContainer = document.getElementById('street-container');
-  if (streetContainer) {
-    initStreetScene(streetContainer);
-  }
-});
 
 
 /* ===================== FRAGMENTOS ===================== */
