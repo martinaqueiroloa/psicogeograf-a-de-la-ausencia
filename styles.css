@@ -1,3 +1,17 @@
+/*nuevo*/
+#street-section {
+  width: 100%;
+  height: 100vh;
+  background: black;
+}
+
+#street-container {
+  width: 100%;
+  height: 100%;
+}
+
+
+
 :root{
   --bg:#0a0a0a;
   --fg:#fff;
