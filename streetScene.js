@@ -1,12 +1,14 @@
 // streetScene.js
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-import calleModelUrl from './assets/calle.glb?url'; // ajustá ruta si hace falta
+// IMPORTS DESDE CDN (no desde "three")
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
+// ruta directa al modelo (sin ?url porque no hay bundler)
+const CALLE_MODEL_URL = './assets/calle.glb';
 
 export function initStreetScene(container) {
-  // --- escena básica ---
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
 
@@ -23,7 +25,6 @@ export function initStreetScene(container) {
   renderer.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(renderer.domElement);
 
-  // luz muy suave para que no quede todo plano
   const ambient = new THREE.AmbientLight(0xffffff, 0.7);
   scene.add(ambient);
 
@@ -35,23 +36,19 @@ export function initStreetScene(container) {
   controls.dampingFactor = 0.05;
   controls.target.set(0, 2, 0);
 
-  // --- cargar modelo calle.glb como nube de puntos ---
   const loader = new GLTFLoader();
   loader.load(
-    calleModelUrl,
+    CALLE_MODEL_URL,
     (gltf) => {
       const root = gltf.scene;
 
       root.traverse((child) => {
         if (child.isMesh) {
-          const geo = child.geometry;
-
-          // MUY importante: clonar la geometría para no tocar la original
-          const geometry = geo.clone();
+          const geometry = child.geometry.clone();
 
           const material = new THREE.PointsMaterial({
-            size: 0.06,          // ajustá para más/menos “grano”
-            color: 0xffffff,     // blanco total
+            size: 0.06,
+            color: 0xffffff,
             sizeAttenuation: true
           });
 
@@ -62,21 +59,18 @@ export function initStreetScene(container) {
 
           scene.add(points);
 
-          // opcional: esconder mesh sólido si hubiera
           child.visible = false;
         }
       });
 
-      // centrar controles (podemos ajustar después)
       controls.update();
     },
     undefined,
-    (err) => {
-      console.error('Error cargando calle.glb', err);
+    (error) => {
+      console.error('Error cargando calle.glb', error);
     }
   );
 
-  // --- resize ---
   function onResize() {
     const w = container.clientWidth;
     const h = container.clientHeight;
@@ -87,7 +81,6 @@ export function initStreetScene(container) {
 
   window.addEventListener('resize', onResize);
 
-  // --- loop ---
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
@@ -95,13 +88,4 @@ export function initStreetScene(container) {
   }
 
   animate();
-
-  // por si después querés destruir la escena al cerrar la ventana
-  return {
-    dispose() {
-      window.removeEventListener('resize', onResize);
-      renderer.dispose();
-      container.innerHTML = '';
-    }
-  };
 }
