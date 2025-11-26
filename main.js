@@ -99,10 +99,12 @@ let NEAR_PROB = 0.35;
 const $home    = document.getElementById('home');
 const $gallery = document.getElementById('gallery');
 const $project = document.getElementById('project');
+const $street  = document.getElementById('street-section');
 const nav = {
   home   : document.getElementById('nav-home'),
   gallery: document.getElementById('nav-gallery'),
-  project: document.getElementById('nav-project')
+  project: document.getElementById('nav-project'),
+  street : document.getElementById('nav-street') 
 };
 
 let currentView = 'home';
@@ -111,6 +113,7 @@ function setView(view){
   if ($home)    $home.style.display    = view==='home'    ? 'block' : 'none';
   if ($gallery) $gallery.style.display = view==='gallery' ? 'block' : 'none';
   if ($project) $project.style.display = view==='project' ? 'block' : 'none';
+   if ($street)  $street.style.display  = view === 'street'  ? 'block' : 'none'; 
   Object.entries(nav).forEach(([k, el])=> el?.classList.toggle('active', k===view));
   if (view !== 'home') stopAllWhooshes();
   refreshAudioState();
@@ -118,7 +121,10 @@ function setView(view){
 nav.home?.addEventListener('click',  e=>{ e.preventDefault(); setView('home'); });
 nav.gallery?.addEventListener('click',e=>{ e.preventDefault(); setView('gallery'); });
 nav.project?.addEventListener('click',e=>{ e.preventDefault(); setView('project'); });
-
+nav.street ?.addEventListener('click', e => {   // NUEVO
+  e.preventDefault();
+  setView('street');
+});
 /* ======================= GALERÍA (covers + mapa) ======================= */
 function buildGallery(){
   if (!$gallery) return;
